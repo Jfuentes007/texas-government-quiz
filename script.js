@@ -39,7 +39,7 @@ const quiz = document.getElementById("quiz");
 const submitBtn = document.getElementById("submit");
 const resultsEl = document.getElementById("results");
 
-// Load Quiz
+// Function to load the quiz
 function loadQuiz() {
     const output = quizData
         .map((currentQuestion, index) => {
@@ -60,7 +60,7 @@ function loadQuiz() {
     quiz.innerHTML = output;
 }
 
-// Get Selected Answers
+// Function to get selected answers
 function getSelected() {
     const answers = [];
     quizData.forEach((_, index) => {
@@ -71,7 +71,7 @@ function getSelected() {
     return answers;
 }
 
-// Event Listener for Submit Button
+// Event listener for Submit button
 submitBtn.addEventListener("click", () => {
     const userAnswers = getSelected();
     let score = 0;
@@ -85,5 +85,5 @@ submitBtn.addEventListener("click", () => {
     resultsEl.innerHTML = `You scored ${score} out of ${quizData.length}`;
 });
 
-// Initialize Quiz
+// Load the quiz
 loadQuiz();
