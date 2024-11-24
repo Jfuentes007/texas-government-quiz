@@ -11,7 +11,7 @@ const quizData = [
         b: "Having a legislature that meets every two years.",
         c: "Having a legislature composed of one chamber.",
         d: "Having a legislature that meets daily.",
-        correct: "a"
+        correct: "a",
     },
     {
         question: "What does the term biennial mean?",
@@ -19,7 +19,7 @@ const quizData = [
         b: "Occurring every year.",
         c: "Occurring every two years.",
         d: "Occurring twice a year.",
-        correct: "c"
+        correct: "c",
     },
     {
         question: "What is the length of a regular session of the Texas legislature?",
@@ -27,7 +27,7 @@ const quizData = [
         b: "140 days",
         c: "200 days",
         d: "365 days",
-        correct: "b"
+        correct: "b",
     },
     {
         question: "What is a local bill?",
@@ -35,111 +35,64 @@ const quizData = [
         b: "A bill affecting only units of local government.",
         c: "A bill granting exemptions to state law.",
         d: "A bill passed by Congress.",
-        correct: "b"
+        correct: "b",
     },
-    {
-        question: "What is a general bill?",
-        a: "A bill affecting only corporations.",
-        b: "A bill that applies to all people and/or property in the state.",
-        c: "A bill that changes the state constitution.",
-        d: "A bill proposing federal laws.",
-        correct: "b"
-    },
-    {
-        question: "What does per diem mean?",
-        a: "Yearly salary for public officials.",
-        b: "Daily payment to a public official engaged in state business.",
-        c: "Hourly wages for state employees.",
-        d: "Monthly stipend for officials.",
-        correct: "b"
-    },
-    {
-        question: "Who can call a special session of the Texas legislature?",
-        a: "The Lieutenant Governor.",
-        b: "The Speaker of the House.",
-        c: "The Governor.",
-        d: "The President.",
-        correct: "c"
-    },
-    {
-        question: "What is the role of the Lieutenant Governor in Texas?",
-        a: "Chief legal advisor to the state.",
-        b: "Presiding officer of the Senate.",
-        c: "Head of the House of Representatives.",
-        d: "State's chief tax collector.",
-        correct: "b"
-    },
-    {
-        question: "What is the primary role of the Texas Attorney General?",
-        a: "Administering elections.",
-        b: "Managing public lands.",
-        c: "Serving as the state's chief civil lawyer.",
-        d: "Presiding over the Senate.",
-        correct: "c"
-    },
-    {
-        question: "What is the Texas Supreme Court responsible for?",
-        a: "Criminal appellate cases.",
-        b: "Civil appellate cases.",
-        c: "Both civil and criminal cases.",
-        d: "Creating state laws.",
-        correct: "b"
-    },
-    // Add more questions as needed
 ];
 
-// Keep track of the current question
-let currentQuiz = 0;
-let score = 0;
-
-// Load Quiz
+// Load quiz
 function loadQuiz() {
-    const currentQuizData = quizData[currentQuiz];
-
-    quiz.innerHTML = `
-        <div class="question">${currentQuizData.question}</div>
-        <div class="answers">
-            <label><input type="radio" name="answer" value="a"> ${currentQuizData.a}</label><br>
-            <label><input type="radio" name="answer" value="b"> ${currentQuizData.b}</label><br>
-            <label><input type="radio" name="answer" value="c"> ${currentQuizData.c}</label><br>
-            <label><input type="radio" name="answer" value="d"> ${currentQuizData.d}</label>
+    const quizHTML = quizData
+        .map(
+            (data, index) => `
+        <div class="quiz-item" id="quiz-item-${index}">
+            <div class="question">${index + 1}. ${data.question}</div>
+            <div class="answers">
+                <label><input type="radio" name="question${index}" value="a"> ${data.a}</label><br>
+                <label><input type="radio" name="question${index}" value="b"> ${data.b}</label><br>
+                <label><input type="radio" name="question${index}" value="c"> ${data.c}</label><br>
+                <label><input type="radio" name="question${index}" value="d"> ${data.d}</label><br>
+            </div>
+            <div class="feedback" id="feedback-${index}" style="margin-top: 10px; font-weight: bold; color: #007bff; display: none;">
+                <!-- Feedback will appear here -->
+            </div>
         </div>
-    `;
+        `
+        )
+        .join("");
+
+    quizContainer.innerHTML = quizHTML;
 }
 
-// Get selected answer
-function getSelected() {
-    const answers = document.querySelectorAll('input[name="answer"]');
-    let selectedAnswer;
-    answers.forEach(answer => {
-        if (answer.checked) {
-            selectedAnswer = answer.value;
+// Show results immediately
+function showImmediateFeedback() {
+    quizData.forEach((data, index) => {
+        const selectedAnswer = document.querySelector(
+            `input[name="question${index}"]:checked`
+        );
+        const feedbackEl = document.getElementById(`feedback-${index}`);
+
+        // Clear existing feedback
+        feedbackEl.style.display = "none";
+
+        if (selectedAnswer) {
+            if (selectedAnswer.value === data.correct) {
+                feedbackEl.style.color = "green";
+                feedbackEl.innerText = "Correct!";
+            } else {
+                feedbackEl.style.color = "red";
+                feedbackEl.innerText = `Incorrect. The correct answer is: ${data[data.correct]}`;
+            }
+            feedbackEl.style.display = "block";
+        } else {
+            feedbackEl.style.color = "orange";
+            feedbackEl.innerText = "Please select an answer!";
+            feedbackEl.style.display = "block";
         }
     });
-    return selectedAnswer;
 }
 
-// Submit the quiz
-submitBtn.addEventListener("click", () => {
-    const selectedAnswer = getSelected();
+// Event listener for submit button
+submitBtn.addEventListener("click", showImmediateFeedback);
 
-    if (selectedAnswer) {
-        if (selectedAnswer === quizData[currentQuiz].correct) {
-            score++;
-        }
-
-        currentQuiz++;
-
-        if (currentQuiz < quizData.length) {
-            loadQuiz();
-        } else {
-            quiz.innerHTML = `
-                <h2>You answered ${score} out of ${quizData.length} questions correctly.</h2>
-                <button onclick="location.reload()">Restart</button>
-            `;
-        }
-    }
-});
-
-// Load the first quiz question
+// Initialize quiz
 loadQuiz();
