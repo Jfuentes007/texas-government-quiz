@@ -1,50 +1,24 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
-
+/* Improved Spacing for Questions and Answers */
 .quiz-container {
-    width: 60%;
-    margin: 50px auto;
-    background: #fff;
-    padding: 20px 40px 40px 40px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-h1 {
-    text-align: center;
-    color: #333;
+    width: 70%;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    line-height: 1.8;
 }
 
 .question {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    font-weight: bold;
 }
 
-.options label {
-    display: block;
-    margin-bottom: 10px;
+.answers {
+    margin-left: 20px;
+    margin-bottom: 25px;
 }
 
-#submit {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-#submit:hover {
-    background: #218838;
-}
-
-#results {
+button {
     margin-top: 20px;
-    font-size: 18px;
-    text-align: center;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
 }
-Add styles.css
