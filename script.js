@@ -37,6 +37,7 @@ const quizData = [
         d: "A bill passed by Congress.",
         correct: "b",
     },
+    // Add more questions as needed
 ];
 
 // Load quiz
@@ -52,9 +53,6 @@ function loadQuiz() {
                 <label><input type="radio" name="question${index}" value="c"> ${data.c}</label><br>
                 <label><input type="radio" name="question${index}" value="d"> ${data.d}</label><br>
             </div>
-            <div class="feedback" id="feedback-${index}" style="margin-top: 10px; font-weight: bold; color: #007bff; display: none;">
-                <!-- Feedback will appear here -->
-            </div>
         </div>
         `
         )
@@ -63,36 +61,50 @@ function loadQuiz() {
     quizContainer.innerHTML = quizHTML;
 }
 
-// Show results immediately
-function showImmediateFeedback() {
+// Show detailed results
+function showResults() {
+    let score = 0;
+    let resultsHTML = `<h2>Your Results:</h2>`;
+    
     quizData.forEach((data, index) => {
         const selectedAnswer = document.querySelector(
             `input[name="question${index}"]:checked`
         );
-        const feedbackEl = document.getElementById(`feedback-${index}`);
+        const isCorrect = selectedAnswer && selectedAnswer.value === data.correct;
 
-        // Clear existing feedback
-        feedbackEl.style.display = "none";
-
-        if (selectedAnswer) {
-            if (selectedAnswer.value === data.correct) {
-                feedbackEl.style.color = "green";
-                feedbackEl.innerText = "Correct!";
-            } else {
-                feedbackEl.style.color = "red";
-                feedbackEl.innerText = `Incorrect. The correct answer is: ${data[data.correct]}`;
-            }
-            feedbackEl.style.display = "block";
+        // Check if the answer is correct and update the score
+        if (isCorrect) {
+            score++;
+            resultsHTML += `
+                <div>
+                    <strong>Question ${index + 1}:</strong> Correct! (${data.question})
+                </div>
+            `;
         } else {
-            feedbackEl.style.color = "orange";
-            feedbackEl.innerText = "Please select an answer!";
-            feedbackEl.style.display = "block";
+            const selectedText = selectedAnswer
+                ? data[selectedAnswer.value]
+                : "No answer selected";
+            resultsHTML += `
+                <div>
+                    <strong>Question ${index + 1}:</strong> Incorrect<br>
+                    Your answer: <em>${selectedText}</em><br>
+                    Correct answer: <em>${data[data.correct]}</em>
+                </div>
+            `;
         }
     });
+
+    // Display final score
+    resultsHTML += `
+        <h3>You got ${score} out of ${quizData.length} questions correct.</h3>
+    `;
+
+    // Show results in the container
+    resultsContainer.innerHTML = resultsHTML;
 }
 
 // Event listener for submit button
-submitBtn.addEventListener("click", showImmediateFeedback);
+submitBtn.addEventListener("click", showResults);
 
 // Initialize quiz
 loadQuiz();
