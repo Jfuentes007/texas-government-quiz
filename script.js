@@ -1,9 +1,9 @@
 // Get DOM elements
-const quiz = document.getElementById("quiz");
+const quizContainer = document.getElementById("quiz");
 const submitBtn = document.getElementById("submit");
-const resultsEl = document.getElementById("results");
+const resultsContainer = document.getElementById("results");
 
-// Quiz Data
+// Quiz data
 const quizData = [
     {
         question: "What does the term bicameral mean?",
