@@ -51,3 +51,8 @@ button:hover {
     font-weight: bold;
     color: green;
 }
+.feedback {
+    font-size: 14px;
+    font-style: italic;
+    margin-top: 5px;
+}
