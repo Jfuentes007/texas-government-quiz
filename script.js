@@ -1,4 +1,7 @@
-// Quiz Data
+// Quiz Dataconst quiz = document.getElementById("quiz");
+const submitBtn = document.getElementById("submit");
+const resultsEl = document.getElementById("results");
+
 const quizData = [
     {
         question: "What does the term bicameral mean?",
