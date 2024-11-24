@@ -1,4 +1,5 @@
-const quizData = [
+const submitBtn = document.getElementById("submit");
+
     {
         question: "What does the term bicameral mean?",
         a: "Having a legislative assembly composed of two chambers or houses.",
