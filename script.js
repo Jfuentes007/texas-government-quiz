@@ -1,5 +1,53 @@
 const quizData = [
-    {
+    {const quiz = document.getElementById("quiz");
+const submitBtn = document.getElementById("submit");
+const resultsEl = document.getElementById("results");
+
+function loadQuiz() {
+    const output = quizData
+        .map((currentQuestion, index) => {
+            return `
+            <div class="question">
+                ${index + 1}. ${currentQuestion.question}
+            </div>
+            <div class="answers">
+                <input type="radio" name="question${index}" value="a"> ${currentQuestion.a}<br>
+                <input type="radio" name="question${index}" value="b"> ${currentQuestion.b}<br>
+                <input type="radio" name="question${index}" value="c"> ${currentQuestion.c}<br>
+                <input type="radio" name="question${index}" value="d"> ${currentQuestion.d}<br>
+            </div>
+            `;
+        })
+        .join("");
+
+    quiz.innerHTML = output;
+}
+
+function getSelected() {
+    const answers = [];
+    quizData.forEach((_, index) => {
+        const selector = `input[name=question${index}]:checked`;
+        const answer = (document.querySelector(selector) || {}).value;
+        answers.push(answer);
+    });
+    return answers;
+}
+
+submitBtn.addEventListener("click", () => {
+    const userAnswers = getSelected();
+    let score = 0;
+
+    userAnswers.forEach((answer, index) => {
+        if (answer === quizData[index].correct) {
+            score++;
+        }
+    });
+
+    resultsEl.innerHTML = `You scored ${score} out of ${quizData.length}`;
+});
+
+loadQuiz();
+
         question: "What does the term bicameral mean?",
         a: "A legislature with one chamber",
         b: "A legislature with two chambers",
