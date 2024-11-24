@@ -108,3 +108,40 @@ submitBtn.addEventListener("click", showResults);
 
 // Initialize quiz
 loadQuiz();
+submitBtn.addEventListener("click", () => {
+    const selectedAnswer = getSelected();
+
+    if (selectedAnswer) {
+        const currentQuizData = quizData[currentQuiz];
+        const feedbackDiv = document.createElement("div");
+        feedbackDiv.classList.add("feedback");
+
+        if (selectedAnswer === currentQuizData.correct) {
+            score++;
+            feedbackDiv.textContent = "Correct! Great job!";
+            feedbackDiv.style.color = "green";
+        } else {
+            feedbackDiv.textContent = `Wrong! The correct answer is: ${
+                currentQuizData[currentQuiz.correct]
+            }`;
+            feedbackDiv.style.color = "red";
+        }
+
+        quiz.appendChild(feedbackDiv);
+
+        setTimeout(() => {
+            currentQuiz++;
+            if (currentQuiz < quizData.length) {
+                loadQuiz();
+            } else {
+                quiz.innerHTML = `
+                    <h2>You answered ${score} out of ${quizData.length} questions correctly.</h2>
+                    <button onclick="location.reload()">Restart</button>
+                `;
+            }
+        }, 2000); // Delay before showing the next question
+    } else {
+        alert("Please select an answer!");
+    }
+});
+
